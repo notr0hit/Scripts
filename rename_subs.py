@@ -35,7 +35,7 @@ def change_sub_name(sub, file):
 	os.rename(sub, file) 
 
 for file in os.listdir(dir):
-	if(file.endswith(".mkv") or file.endswith(".mp4") or file.endswith(".avi")):
+	if(file.endswith(".mkv") or file.endswith(".mp4") or file.endswith(".avi") and ((file[0:-4] + ".srt") not in os.listdir(dir))):
 		file_name = file[0:-4]
 		file_info = find_info(file_name)
 		for sub in os.listdir(dir):
