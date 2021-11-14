@@ -8,28 +8,43 @@ script_path = 'D:\Scripts\cpp_compile_run.py'
 dir = os.getcwd()
 
 # filename from argument
-file_name = sys.argv[1];
-if(file_name.endswith(".cpp")):
-    file_name = file_name[0:-4]
+file = sys.argv[1];
 
-if(file_name[0:2] == "./" or file_name[0:2] == ".\\"):
-    file_name = file_name[2:]
+if(file[0:2] == "./" or file[0:2] == ".\\"):
+    file = file[2:]
 
+if file.endswith('.cpp') == False:
+    file = file + '.cpp'
 
-# compiling
-os.system(f'g++ -std=c++17 -Wall -Werror -O2 -DROHIT {file_name + ".cpp"} -o {file_name}')
+file_name = os.path.splitext(file)[0]
+
+# compiling and running
+def compile_run():
+    os.system(f'g++ -std=c++17 -Wall -Werror -O2 -DROHIT {file} -o {file_name}')
+    run()
 
 # executing
-os.system(f'{dir}\\{file_name}')
+def run():
+    os.system(f'{dir}/{file_name}')
+    print()
+
+def choice_is_bad(choice):
+    return choice != 'c' and choice != 'r' and choice != 'q'
 
 print()
-choice = input(f'Do you want to compile again? (y / n) : ')
-choice = choice.lower()
+# executing first time
+compile_run()
 
-if choice != 'y' and choice != 'n':
-    choice = input(f'Invalid input. Do you want to compile again? (y / n) : ')
-
-if choice == 'y':
-    os.system(f'python.exe {script_path} {file_name}')
-else :
-    print('Done.\n')
+while True:
+    choice = input(f'Compile, Run again or Quit? (c / r / q) : ').lower()
+    while choice_is_bad(choice):
+        choice = input(f'Invalid Input. Enter again : ')
+    print()
+    
+    if choice == 'c':
+        compile_run()    
+    elif choice == 'r':
+        run()
+    else :
+        print('Done.\n')
+        exit()
