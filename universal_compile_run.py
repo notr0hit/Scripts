@@ -12,16 +12,19 @@ file = sys.argv[1];
 if(file[0:2] == "./" or file[0:2] == ".\\"):
     file = file[2:]
 
-# default config for running C++ code 
-if file.endswith('.cpp') == False:
-    file = file + '.cpp'
+
 
 file_name, file_extension = os.path.splitext(file)
+
+# make default extension to cpp if there is no extension
+if file_extension == '':
+    file = file + '.cpp'
+    file_extension = '.cpp'
 
 # compile arguments
 compile_args = {
     ".java" : f'javac {file}',
-    ".cpp" : f'g++ -std=c++17 -Wall -Werror -O2 -DROHIT {file} -o {file_name}',
+    ".cpp" : f'g++ -std=c++17 -Wall -O2 -DROHIT {file} -o {file_name}',
 }
 
 #run arguments
@@ -64,7 +67,7 @@ def choice_is_bad(choice):
     return choice != 'c' and choice != 'r' and choice != 'q'
 
 while True:
-    choice = input(f'Compile, Run again or Quit? (c / r / q) : ').lower()
+    choice = input(f'Compile, Run again or Quit? (C / R / Q) : ').lower()
     while choice_is_bad(choice):
         choice = input(f'Invalid Input. Enter again : ')
 
