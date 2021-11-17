@@ -1,35 +1,33 @@
 import os
+import re
+from typing import Pattern
 dir = os.getcwd()
 
-def valid(file_name, indices):
-	res = True
-	for index in indices:	
-		res = res and file_name[index].isdigit()
-
-	return res
 
 def find_info(file_name):
-	file_name = file_name.lower().replace(" ", "").replace(".", "").replace("_", "").lower()
+	file_name = file_name.replace(" ", "").replace(".", "").replace("_", "")
 	season = 0
 	episode = 0
-	for i in range(len(file_name)):
-		# s01e01
-		if(file_name[i] == 's'):
-			if(i+3 < len(file_name) and file_name[i+3] == 'e'):
-				if (i+5 < len(file_name) and valid(file_name, [i+1, i+2, i+4, i+5])):
-					season = int(file_name[i+1:i+3])
-					episode = int(file_name[i+4:i+6])
-					break
-		
-		# 01x01
-		if (file_name[i] == 'x'):
-			if ((i+2)<len(file_name) and (i-2)>=0 and valid(file_name, [i+1,i+2, i-1, i-2])):
-				season = int(file_name[i-2:i])
-				episode = int(file_name[i+1:i+3])
-				break
+
+	pattern1 = re.compile(r'[s|S][0-9]{1,2}[e|E][0-9]{1,2}')
+	pattern2 = re.compile(r'[0-9]{1,2}[x|X][0-9]{1,2}')
+
+	patterns = [pattern1, pattern2 ]
+
+	for idx, p in enumerate(patterns):
+		m = re.search(p, file_name)
+		if m:
+			if idx == 0:
+				season = int(re.split(r'[e|E]', m.group())[0][1:])
+				episode = int(re.split(r'[e|E]', m.group())[1])
+			elif idx == 1:
+				season = int(re.split(r'[x|X]', m.group())[0])
+				episode = int(re.split(r'[x|X]', m.group())[1])
+			else:
+				print("NO MATCH!")
+			break
 
 	return [season, episode]
-
 
 def change_sub_name(sub, file):
 	os.rename(sub, file) 
