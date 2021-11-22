@@ -9,7 +9,8 @@ output_extension = '.'+sys.argv[2];
 
 for filename in os.listdir(directory):
     if filename.endswith(input_extension):
+        file_name = os.path.splitext(filename)[0]
         # ffmpeg -i input -map 0 -c copy output.mp4
-        os.system(f'ffmpeg -i {filename} -map 0 -c copy {filename[0:-3] + output_extension}')
+        os.system(f'ffmpeg -i {filename} -map 0 -c copy {file_name + output_extension}')
     else:
         continue
