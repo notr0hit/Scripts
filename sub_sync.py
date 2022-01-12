@@ -10,7 +10,7 @@ for filename in os.listdir(directory):
         continue
 
 # script to rename and fix subtitles
-os.system('python D:/Scripts/rename_subs.py')
+os.system('python F:/Scripts/rename_subs.py')
 
 #sync subtitles with audio track
 for filename in os.listdir(directory):

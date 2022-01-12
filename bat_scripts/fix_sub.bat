@@ -1,3 +1,3 @@
 @echo off
-python.exe "D:\Scripts\sub_sync.py"
+python.exe "F:\Scripts\sub_sync.py"
 pause
