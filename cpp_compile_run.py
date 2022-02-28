@@ -2,7 +2,7 @@ import sys
 import os
 
 #file path
-script_path = 'D:\Scripts\cpp_compile_run.py'
+script_path = 'F:\\Scripts\\cpp_compile_run.py'
 
 # current directory
 dir = os.getcwd()

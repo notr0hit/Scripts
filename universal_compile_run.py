@@ -2,7 +2,7 @@ import sys
 import os
 
 #file path
-script_path = r'D:\Scripts\univeral_compile_run.py'
+script_path = 'F:\\Scripts\\univeral_compile_run.py'
 
 # current directory
 dir = os.getcwd()
@@ -24,7 +24,7 @@ if file_extension == '':
 # compile arguments
 compile_args = {
     ".java" : f'javac {file}',
-    ".cpp" : f'g++ -std=c++17 -Wall -O2 -DROHIT {file} -o {file_name}',
+    ".cpp" : f'g++ -std=c++17 -Wall -O2 -DOFFLINE {file} -o {file_name}',
 }
 
 #run arguments
