@@ -28,6 +28,9 @@ def get_tokens(json_file, no_of_chats):
         cur_info['end_time'] = str(timedelta(seconds=comment['content_offset_seconds'] + 10))
         cur_info['offset'] = comment['content_offset_seconds']
 
+        if ("sub" or "resub" in cur_info["comment"].lower()) or ("stream" in cur_info["user_name"].lower()):
+            continue
+        
         deq.append(cur_info)
         
         if len(deq) >= no_of_chats:
