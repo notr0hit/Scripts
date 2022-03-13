@@ -71,7 +71,7 @@ if str_no_of_chats.isdigit():
     no_of_chats = int(str_no_of_chats)
 
 font_size = 12
-str_font_size = int(input("Enter font size (default = 12) : "))
+str_font_size = (input("Enter font size (default = 12) : "))
 if str_font_size.isdigit():
     font_size = int(str_font_size)
 
