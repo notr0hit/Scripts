@@ -1,9 +1,10 @@
+from inspect import stack
 import json
 from datetime import timedelta
 import os
 import tkinter as tk
 from tkinter import filedialog
-from turtle import end_fill
+from collections import deque
 
 from cv2 import FileNode_NAMED
 
@@ -14,29 +15,32 @@ def get_json_data(json_file_path):
     return json_load
 
 
-def get_info(json_file, no_of_chats):
+def get_tokens(json_file, no_of_chats):
     info = []
-    ind = 0
-    json_file_list = list(json_file['comments'])
+    # We will maintain a queue
+    deq = deque()
     for comment in json_file['comments']:
         cur_info = {}
         cur_info["user_name"] = comment['commenter']['display_name']
         cur_info['user_color'] = comment['message']['user_color']
         cur_info['comment'] = comment['message']['body']
         cur_info['start_time'] = str(timedelta(seconds=comment['content_offset_seconds']))
-        if ind + no_of_chats < len(json_file['comments']):
-            cur_info['end_time'] = str(
-                timedelta(seconds=json_file_list[ind + no_of_chats]['content_offset_seconds'])
-            )
-        else:
-            cur_info['end_time'] = str(
-                timedelta(seconds=(json_file_list[ind]['content_offset_seconds'] + 3))
-            )
-        ind += 1
-        if "sub" in cur_info['comment'].lower() or "resub" in cur_info['comment'].lower() or "streamlabs" in cur_info['user_name'].lower():
-            continue
-        info.append(cur_info)
+        cur_info['end_time'] = str(timedelta(seconds=10000000000))
+        cur_info['offset'] = comment['content_offset_seconds']
+        deq.append(cur_info)
+        
+        if len(deq) >= no_of_chats:
+            last_info = deq.popleft()
+            last_info['end_time'] = str(timedelta(seconds=(cur_info['offset']-0.1)))     
+            info.append(last_info)
+    
+    while (len(deq)):
+        last_info = deq.popleft()
+        last_info['end_time'] = str(timedelta(seconds=(last_info['offset']+10)))      
+        info.append(last_info)
+    
     return info
+
 
 def build_srt(infos, srt_file_name, font_size):
     fp = open(srt_file_name, 'a', encoding='utf8')
@@ -81,7 +85,7 @@ fp = open(srt_file_name, 'w', encoding="utf8")
 fp.close()
 
 json = get_json_data(json_file)
-infos = get_info(json, no_of_chats)
+infos = get_tokens(json, no_of_chats)
 build_srt(infos, srt_file_name, font_size)
 
 print("Success, srt file saved as {}.".format(srt_file_name))
