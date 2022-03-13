@@ -43,7 +43,7 @@ def build_srt(infos, srt_file_name, font_size):
     ind = 1
     for info in infos:
         fp.write(
-        "{}\n{} -->  {}\n<font color={} size={}>{}</font>: <font size={}>{}</font>\n\n".format(
+        "{}\n{} -->  {}\n<font color={} size={}>{}</font> <font size={}>: {}</font>\n\n".format(
             ind, info['start_time'], info['end_time'], 
             info['user_color'], font_size, info['user_name'],
             font_size, info['comment'] )
@@ -71,7 +71,7 @@ if str_no_of_chats.isdigit():
     no_of_chats = int(str_no_of_chats)
 
 font_size = 12
-str_font_size = (input("Enter font size (default = 12) : "))
+str_font_size = (input("Enter font size (default = 10) : "))
 if str_font_size.isdigit():
     font_size = int(str_font_size)
 
