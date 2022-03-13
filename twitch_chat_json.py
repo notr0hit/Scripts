@@ -38,14 +38,15 @@ def get_info(json_file, no_of_chats):
         info.append(cur_info)
     return info
 
-def build_srt(infos, srt_file_name):
+def build_srt(infos, srt_file_name, font_size):
     fp = open(srt_file_name, 'a', encoding='utf8')
     ind = 1
     for info in infos:
         fp.write(
-        "{}\n{} -->  {}\n<font color={}>{}</font>: {}\n\n".format(
+        "{}\n{} -->  {}\n<font color={} size={}>{}</font>: <font size={}>{}</font>\n\n".format(
             ind, info['start_time'], info['end_time'], 
-            info['user_color'], info['user_name'], info['comment'] )
+            info['user_color'], font_size, info['user_name'],
+            font_size, info['comment'] )
             )
         ind += 1
 
@@ -69,6 +70,8 @@ str_no_of_chats = (input("Enter maximum number of chats simultaneously (default=
 if str_no_of_chats != '' and str_no_of_chats.isdigit():
     no_of_chats = int(str_no_of_chats)
 
+font_size = input("Enter font size (default = 12) : ")
+
 srt_file_name = str(os.path.basename(json_file))[:-5] + '.srt'
 os.chdir(os.path.dirname(json_file))
 fp = open(srt_file_name, 'w', encoding="utf8")
@@ -76,6 +79,6 @@ fp.close()
 
 json = get_json_data(json_file)
 infos = get_info(json, no_of_chats)
-build_srt(infos, srt_file_name)
+build_srt(infos, srt_file_name, font_size)
 
 print("Success, srt file saved as {}.".format(srt_file_name))
