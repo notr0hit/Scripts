@@ -32,10 +32,10 @@ def get_info(json_file, no_of_chats):
             cur_info['end_time'] = str(
                 timedelta(seconds=(json_file_list[ind]['content_offset_seconds'] + 3))
             )
+        ind += 1
         if "sub" in cur_info['comment'].lower() or "resub" in cur_info['comment'].lower() or "streamlabs" in cur_info['user_name'].lower():
             continue
         info.append(cur_info)
-        ind += 1
     return info
 
 def build_srt(infos, srt_file_name):
