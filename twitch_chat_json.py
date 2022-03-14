@@ -22,12 +22,12 @@ def get_tokens(json_file, no_of_chats):
         cur_info["user_name"] = comment['commenter']['display_name']
         cur_info['user_color'] = comment['message']['user_color']
         cur_info['comment'] = comment['message']['body']
-        cur_info['start_time'] = str(timedelta(seconds=comment['content_offset_seconds']))[:-4]
-        cur_info['end_time'] = str(timedelta(seconds=comment['content_offset_seconds'] + 3))[:-4]
+        cur_info['start_time'] = str(timedelta(seconds=comment['content_offset_seconds']))[:-3]
+        cur_info['end_time'] = str(timedelta(seconds=comment['content_offset_seconds'] + 3))[:-3]
         cur_info['offset'] = comment['content_offset_seconds']
 
-        cur_info['start_time'].replace('.', ",")
-        cur_info['end_time'].replace('.', ",")
+        cur_info['start_time'] = cur_info['start_time'].replace('.', ",")
+        cur_info['end_time'] = cur_info['end_time'].replace('.', ",")
 
         if cur_info['user_color'] == "None" or cur_info['user_color'] == None:
             cur_info['user_color'] = "#FFFFFF"
